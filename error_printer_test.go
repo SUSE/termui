@@ -58,7 +58,7 @@ func TestErrorPrinter_Printing(t *testing.T) {
 	printer := NewErrorPrinter(ui)
 
 	err1 := UnsupportedOSError("windows")
-	err2 := NotImplementedError()
+	err2 := fmt.Errorf("Generic error")
 	printer.PrintAndExit(err1)
 
 	exp := color.RedString("Error (%d): Unsupported OS: windows", codeUnsupportedOSError)
@@ -71,7 +71,7 @@ func TestErrorPrinter_Printing(t *testing.T) {
 
 	out.Reset()
 	printer.PrintWarning(err2)
-	exp = color.YellowString("Warning (%d): This feature has not been implemented", codeNotImplementedError)
+	exp = color.YellowString("Warning (%d): Generic error", CodeUnknownError)
 	if got := strings.TrimSpace(out.String()); got != exp {
 		t.Error("wrong error message:", got)
 	}

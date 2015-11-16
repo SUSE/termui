@@ -11,7 +11,7 @@ var (
 
 const (
 	// CodeUnknownError is a generic error code for errors without one
-	CodeUnknownError = iota + 100
+	CodeUnknownError = iota + 1
 )
 
 // Error objects support having an error code in addition to the message
