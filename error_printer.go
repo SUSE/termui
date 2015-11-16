@@ -61,8 +61,8 @@ func PrintWarning(ui *UI, err error) {
 }
 
 func getErrorCode(err error) int {
-	if gatoErr, ok := err.(Error); ok {
-		return gatoErr.Code()
+	if errWithCode, ok := err.(Error); ok {
+		return errWithCode.Code()
 	}
 
 	return CodeUnknownError

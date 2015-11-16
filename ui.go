@@ -1,3 +1,5 @@
+// Package termui is a wrapper to enable disabling input echo and other terminal
+// handling.
 package termui
 
 import (
