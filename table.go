@@ -10,9 +10,8 @@ import (
 	"github.com/fatih/color"
 )
 
-// Table is an implementation of the Table interface. It
-// remembers the headers, the added rows, the column widths, and a
-// number of other things.
+// Table remembers headers, added rows, column widths, and a
+// number of other things and later formats and prints these things.
 type Table struct {
 	headers       []string
 	headerPrinted bool

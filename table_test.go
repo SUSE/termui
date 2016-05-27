@@ -269,11 +269,14 @@ var _ = Describe("Table", func() {
 	})
 })
 
+// SliceMatcher looks for all substrings passed to it in the given string.
 type SliceMatcher struct {
 	expected      [][]string
 	failedAtIndex int
 }
 
+// ContainSubstrings returns an OmegaMatcher that looks for all substrings
+// passed to it in whatever it's being matched against.
 func ContainSubstrings(substrings ...[]string) OmegaMatcher {
 	return &SliceMatcher{expected: substrings}
 }
