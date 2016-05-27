@@ -1,17 +1,19 @@
-package terminal
+package termui
 
 import (
 	"bytes"
 	"fmt"
 	"io"
+	"regexp"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
-// PrintableTable is an implementation of the Table interface. It
+// Table is an implementation of the Table interface. It
 // remembers the headers, the added rows, the column widths, and a
 // number of other things.
 type Table struct {
-	ui            UI
 	headers       []string
 	headerPrinted bool
 	columnWidth   []int
@@ -26,10 +28,27 @@ type Table struct {
 // the transformation is applied to each individual line.
 type Transformer func(s string) string
 
+// TableContentHeaderColor is the default header content color for tables
+func TableContentHeaderColor(s string) string {
+	return color.New(color.Bold, color.FgCyan).SprintFunc()(s)
+}
+
+// HeaderColor is the default header color for tables
+func HeaderColor(s string) string {
+	return color.New(color.Bold, color.FgWhite).SprintFunc()(s)
+}
+
+var decolorizerRegex = regexp.MustCompile(`\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]`)
+
+// Decolorize is a function that strips out all colorizing control bytes
+func Decolorize(message string) string {
+	return decolorizerRegex.ReplaceAllString(message, "")
+}
+
 // NewTable is the constructor function creating a new printable table
 // from a list of headers. The table is also connected to a UI, which
 // is where it will print itself to on demand.
-func NewTable(headers []string) *Table {
+func NewTable(headers ...string) *Table {
 	pt := &Table{
 		headers:     headers,
 		columnWidth: make([]int, len(headers)),
@@ -72,7 +91,6 @@ func (t *Table) Add(row ...string) {
 // exported Print() is just a wrapper around this which redirects the
 // result into CF datastructures.
 func (t *Table) PrintTo(result io.Writer) {
-
 	t.rowHeight = make([]int, len(t.rows)+1)
 
 	rowIndex := 0

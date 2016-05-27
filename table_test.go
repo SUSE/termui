@@ -1,13 +1,13 @@
-package terminal_test
+package termui
 
 import (
 	"bytes"
+	"fmt"
 
-	. "github.com/cloudfoundry/cli/cf/terminal"
-	. "github.com/cloudfoundry/cli/testhelpers/matchers"
+	"strings"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"strings"
 )
 
 var _ = Describe("Table", func() {
@@ -18,7 +18,7 @@ var _ = Describe("Table", func() {
 
 	BeforeEach(func() {
 		outputs = &bytes.Buffer{}
-		table = NewTable([]string{"watashi", "no", "atama!"})
+		table = NewTable("watashi", "no", "atama!")
 	})
 
 	It("prints the header", func() {
@@ -32,7 +32,7 @@ var _ = Describe("Table", func() {
 	Describe("REGRESSION: #117404629, having a space in one of the middle headers", func() {
 		BeforeEach(func() {
 			outputs = &bytes.Buffer{}
-			table = NewTable([]string{"watashi", "no ", "atama!"})
+			table = NewTable("watashi", "no ", "atama!")
 		})
 
 		It("prints the table without panicking", func() {
@@ -104,7 +104,7 @@ var _ = Describe("Table", func() {
 	})
 
 	It("prints a newline for the headers, and nothing for rows", func() {
-		table = NewTable([]string{})
+		table = NewTable()
 		table.PrintTo(outputs)
 
 		Expect(outputs.String()).To(Equal("\n"))
@@ -242,7 +242,7 @@ var _ = Describe("Table", func() {
 		})
 
 		It("supports multi-byte Japanese runes", func() {
-			table = NewTable([]string{"", "", "", "", "", ""})
+			table = NewTable("", "", "", "", "", "")
 			table.Add("名前", "要求された状態", "インスタンス", "メモリー", "ディスク", "URL")
 			table.Add("app-name", "stopped", "0/1", "1G", "1G", "app-name.example.com")
 			table.PrintTo(outputs)
@@ -255,7 +255,7 @@ var _ = Describe("Table", func() {
 		})
 
 		It("supports multi-byte French runes", func() {
-			table = NewTable([]string{"", "", "", "", "", ""})
+			table = NewTable("", "", "", "", "", "")
 			table.Add("nom", "état demandé", "instances", "mémoire", "disque", "adresses URL")
 			table.Add("app-name", "stopped", "0/1", "1G", "1G", "app-name.example.com")
 			table.PrintTo(outputs)
@@ -268,3 +268,63 @@ var _ = Describe("Table", func() {
 		})
 	})
 })
+
+type SliceMatcher struct {
+	expected      [][]string
+	failedAtIndex int
+}
+
+func ContainSubstrings(substrings ...[]string) OmegaMatcher {
+	return &SliceMatcher{expected: substrings}
+}
+
+func (matcher *SliceMatcher) Match(actual interface{}) (success bool, err error) {
+	actualStrings, ok := actual.([]string)
+	if !ok {
+		return false, nil
+	}
+
+	allStringsMatched := make([]bool, len(matcher.expected))
+
+	for index, expectedArray := range matcher.expected {
+		for _, actualValue := range actualStrings {
+
+			allStringsFound := true
+
+			for _, expectedValue := range expectedArray {
+				allStringsFound = allStringsFound && strings.Contains(Decolorize(actualValue), expectedValue)
+			}
+
+			if allStringsFound {
+				allStringsMatched[index] = true
+				break
+			}
+		}
+	}
+
+	for index, value := range allStringsMatched {
+		if !value {
+			matcher.failedAtIndex = index
+			return false, nil
+		}
+	}
+
+	return true, nil
+}
+
+func (matcher *SliceMatcher) FailureMessage(actual interface{}) string {
+	actualStrings, ok := actual.([]string)
+	if !ok {
+		return fmt.Sprintf("Expected actual to be a slice of strings, but it's actually a %T", actual)
+	}
+
+	return fmt.Sprintf("expected to find \"%s\" in actual:\n'%s'\n", matcher.expected[matcher.failedAtIndex], strings.Join(actualStrings, "\n"))
+}
+
+func (matcher *SliceMatcher) NegatedFailureMessage(actual interface{}) string {
+	actualStrings, ok := actual.([]string)
+	if !ok {
+		return fmt.Sprintf("Expected actual to be a slice of strings, but it's actually a %T", actual)
+	}
+	return fmt.Sprintf("expected to not find \"%s\" in actual:\n'%s'\n", matcher.expected[matcher.failedAtIndex], strings.Join(actualStrings, "\n"))
+}
