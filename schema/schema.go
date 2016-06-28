@@ -13,12 +13,14 @@ type SchemaParser struct {
 	ui terminal.UI
 }
 
+// initializes SchemaParser
 func NewSchemaParser(userInterface terminal.UI) *SchemaParser {
 	return &SchemaParser{
 		ui: userInterface,
 	}
 }
 
+// parses a json string and prompts the user for the types defined in the json (string/number/integer/boolean)
 func (p *SchemaParser) ParseSchema(schema string) (string, error) {
 	var jsontype map[string]interface{}
 	json.Unmarshal([]byte(schema), &jsontype)
