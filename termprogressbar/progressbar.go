@@ -6,30 +6,34 @@ import (
 
 type termuiprogressbar struct {
 	progressbar *pb.ProgressBar
-	Visible     bool
+	visible     bool
 }
 
+// creates a new progressbar
 func NewProgressBar(total int, visible bool) *termuiprogressbar {
-	pbar := termuiprogressbar{}
-	pbar.progressbar = pb.New64(int64(total))
-	pbar.Visible = visible
-	return &pbar
+	return &termuiprogressbar{
+		progressbar: pb.New64(int64(total)),
+		visible:     visible,
+	}
 }
 
+// starts the progressbar
 func (pb *termuiprogressbar) Start() {
-	if pb.Visible {
+	if pb.visible {
 		pb.progressbar.Start()
 	}
 }
 
+// increments the progressbar
 func (pb *termuiprogressbar) Increment() {
-	if pb.Visible {
+	if pb.visible {
 		pb.progressbar.Increment()
 	}
 }
 
+// gets the progressbar to 100% and prints out a message
 func (pb *termuiprogressbar) FinishPrint(str string) {
-	if pb.Visible {
+	if pb.visible {
 		pb.progressbar.FinishPrint(str)
 	}
 }
