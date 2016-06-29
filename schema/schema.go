@@ -9,19 +9,20 @@ import (
 	"github.com/cloudfoundry/cli/cf/terminal"
 )
 
-type SchemaParser struct {
+// Parser struct definition
+type Parser struct {
 	ui terminal.UI
 }
 
-// initializes SchemaParser
-func NewSchemaParser(userInterface terminal.UI) *SchemaParser {
-	return &SchemaParser{
+// NewSchemaParser initializes SchemaParser
+func NewSchemaParser(userInterface terminal.UI) *Parser {
+	return &Parser{
 		ui: userInterface,
 	}
 }
 
-// parses a json string and prompts the user for the types defined in the json (string/number/integer/boolean)
-func (p *SchemaParser) ParseSchema(schema string) (string, error) {
+// ParseSchema parses a json string and prompts the user for the types defined in the json (string/number/integer/boolean)
+func (p *Parser) ParseSchema(schema string) (string, error) {
 	var jsontype map[string]interface{}
 	json.Unmarshal([]byte(schema), &jsontype)
 	res, err := p.parseObject("", jsontype)
@@ -35,8 +36,8 @@ func (p *SchemaParser) ParseSchema(schema string) (string, error) {
 	return string(jsonResult), nil
 }
 
-func (p *SchemaParser) parseObject(key string, input map[string]interface{}) (map[string]interface{}, error) {
-	var result map[string]interface{} = make(map[string]interface{})
+func (p *Parser) parseObject(key string, input map[string]interface{}) (map[string]interface{}, error) {
+	var result = make(map[string]interface{})
 
 	if prop, ok := input["properties"]; ok {
 		for k, v := range prop.(map[string]interface{}) {

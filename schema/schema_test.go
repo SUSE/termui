@@ -1,9 +1,9 @@
 package schema_test
 
 import (
+	"bufio"
 	"bytes"
-	"io"
-	"os"
+	"io/ioutil"
 	"testing"
 
 	"github.com/hpcloud/termui/schema"
@@ -13,8 +13,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-// tests for schema
-func TestSchemaString(t *testing.T) {
+// TestSchema tests schema package
+func TestSchema(t *testing.T) {
 	RegisterFailHandler(Fail)
 
 	RunSpecs(t, "Schema")
@@ -24,7 +24,6 @@ var _ = Describe("Schema", func() {
 	Describe("Test if schema asks correctly for a string", func() {
 		Context("ask for string", func() {
 			It("should be Insert string value for /stringtest [required]", func() {
-				ui := term.NewUI(os.Stdin, term.NewTeePrinter())
 
 				str := `{
    "type":"object",
@@ -38,25 +37,24 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				old := os.Stdout
-				r, w, _ := os.Pipe()
-				os.Stdout = w
+				in := bytes.Buffer{}
+				out := bytes.Buffer{}
+				writer := bufio.NewWriter(&out)
 
-				schemaParser := schema.NewSchemaParser(ui)
-				schemaParser.ParseSchema(str)
+				ui := term.NewUI(
+					&in,
+					writer,
+					term.NewTeePrinter(writer),
+					nil,
+				)
 
-				outC := make(chan string)
+				schema.NewSchemaParser(ui).ParseSchema(str)
+				writer.Flush()
 
-				go func() {
-					var buf bytes.Buffer
-					io.Copy(&buf, r)
-					outC <- buf.String()
-				}()
+				result, err := ioutil.ReadAll(&out)
 
-				w.Close()
-				os.Stdout = old
-				out := <-outC
-				Expect(out).To(ContainSubstring("Insert string value for /stringtest [required]"))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(result).To(ContainSubstring("Insert string value for /stringtest [required]"))
 			})
 		})
 	})
@@ -64,7 +62,6 @@ var _ = Describe("Schema", func() {
 	Describe("Test if schema asks correctly for a integer", func() {
 		Context("ask for integer", func() {
 			It("should be Insert integer value for /integertest [required]", func() {
-				ui := term.NewUI(os.Stdin, term.NewTeePrinter())
 
 				str := `{
    "type":"object",
@@ -78,25 +75,24 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				old := os.Stdout
-				r, w, _ := os.Pipe()
-				os.Stdout = w
+				in := bytes.Buffer{}
+				out := bytes.Buffer{}
+				writer := bufio.NewWriter(&out)
 
-				schemaParser := schema.NewSchemaParser(ui)
-				schemaParser.ParseSchema(str)
+				ui := term.NewUI(
+					&in,
+					writer,
+					term.NewTeePrinter(writer),
+					nil,
+				)
 
-				outC := make(chan string)
+				schema.NewSchemaParser(ui).ParseSchema(str)
+				writer.Flush()
 
-				go func() {
-					var buf bytes.Buffer
-					io.Copy(&buf, r)
-					outC <- buf.String()
-				}()
+				result, err := ioutil.ReadAll(&out)
 
-				w.Close()
-				os.Stdout = old
-				out := <-outC
-				Expect(out).To(ContainSubstring("Insert integer value for /integertest [required]"))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(result).To(ContainSubstring("Insert integer value for /integertest [required]"))
 			})
 		})
 	})
@@ -104,7 +100,6 @@ var _ = Describe("Schema", func() {
 	Describe("Test if schema asks correctly for a number", func() {
 		Context("ask for integer", func() {
 			It("should be Insert numeric value for /numbertest [required]", func() {
-				ui := term.NewUI(os.Stdin, term.NewTeePrinter())
 
 				str := `{
    "type":"object",
@@ -118,25 +113,24 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				old := os.Stdout
-				r, w, _ := os.Pipe()
-				os.Stdout = w
+				in := bytes.Buffer{}
+				out := bytes.Buffer{}
+				writer := bufio.NewWriter(&out)
 
-				schemaParser := schema.NewSchemaParser(ui)
-				schemaParser.ParseSchema(str)
+				ui := term.NewUI(
+					&in,
+					writer,
+					term.NewTeePrinter(writer),
+					nil,
+				)
 
-				outC := make(chan string)
+				schema.NewSchemaParser(ui).ParseSchema(str)
+				writer.Flush()
 
-				go func() {
-					var buf bytes.Buffer
-					io.Copy(&buf, r)
-					outC <- buf.String()
-				}()
+				result, err := ioutil.ReadAll(&out)
 
-				w.Close()
-				os.Stdout = old
-				out := <-outC
-				Expect(out).To(ContainSubstring("Insert numeric value for /numbertest [required]"))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(result).To(ContainSubstring("Insert numeric value for /numbertest [required]"))
 			})
 		})
 	})
@@ -144,7 +138,6 @@ var _ = Describe("Schema", func() {
 	Describe("Test if schema asks correctly for a boolean", func() {
 		Context("ask for boolean", func() {
 			It("should be Insert boolean value for /booleantest [required]", func() {
-				ui := term.NewUI(os.Stdin, term.NewTeePrinter())
 
 				str := `{
    "type":"object",
@@ -158,25 +151,24 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				old := os.Stdout
-				r, w, _ := os.Pipe()
-				os.Stdout = w
+				in := bytes.Buffer{}
+				out := bytes.Buffer{}
+				writer := bufio.NewWriter(&out)
 
-				schemaParser := schema.NewSchemaParser(ui)
-				schemaParser.ParseSchema(str)
+				ui := term.NewUI(
+					&in,
+					writer,
+					term.NewTeePrinter(writer),
+					nil,
+				)
 
-				outC := make(chan string)
+				schema.NewSchemaParser(ui).ParseSchema(str)
+				writer.Flush()
 
-				go func() {
-					var buf bytes.Buffer
-					io.Copy(&buf, r)
-					outC <- buf.String()
-				}()
+				result, err := ioutil.ReadAll(&out)
 
-				w.Close()
-				os.Stdout = old
-				out := <-outC
-				Expect(out).To(ContainSubstring("Insert boolean value for /booleantest [required]"))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(result).To(ContainSubstring("Insert boolean value for /booleantest [required]"))
 			})
 		})
 	})
