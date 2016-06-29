@@ -10,11 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// tests if the progressbar is visible if it is initialized with visible=true
+// TestVisible tests if the progressbar is visible if it is initialized with visible=true
 func TestVisible(t *testing.T) {
 	assert := assert.New(t)
 
 	old := os.Stdout
+	defer func() { os.Stdout = old }()
+
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
@@ -31,17 +33,18 @@ func TestVisible(t *testing.T) {
 	}()
 
 	w.Close()
-	os.Stdout = old
 	out := <-outC
 
 	assert.NotEmpty(out)
 }
 
-// tests if the progressbar is invisible if it is initialized with visible=false
+// TestInvisible tests if the progressbar is invisible if it is initialized with visible=false
 func TestInvisible(t *testing.T) {
 	assert := assert.New(t)
 
 	old := os.Stdout
+	defer func() { os.Stdout = old }()
+
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
@@ -58,7 +61,6 @@ func TestInvisible(t *testing.T) {
 	}()
 
 	w.Close()
-	os.Stdout = old
 	out := <-outC
 
 	assert.Empty(out)
