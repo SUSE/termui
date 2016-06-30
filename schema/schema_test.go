@@ -1,9 +1,7 @@
 package schema_test
 
 import (
-	"bufio"
 	"bytes"
-	"io/ioutil"
 	"testing"
 
 	"github.com/hpcloud/termui/schema"
@@ -37,24 +35,18 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				in := bytes.Buffer{}
 				out := bytes.Buffer{}
-				writer := bufio.NewWriter(&out)
 
 				ui := term.NewUI(
-					&in,
-					writer,
-					term.NewTeePrinter(writer),
+					&bytes.Buffer{},
+					&out,
+					term.NewTeePrinter(&out),
 					nil,
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
-				writer.Flush()
 
-				result, err := ioutil.ReadAll(&out)
-
-				Expect(err).NotTo(HaveOccurred())
-				Expect(result).To(ContainSubstring("Insert string value for /stringtest [required]"))
+				Expect(out.String()).To(ContainSubstring("Insert string value for /stringtest [required]"))
 			})
 		})
 	})
@@ -75,24 +67,18 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				in := bytes.Buffer{}
 				out := bytes.Buffer{}
-				writer := bufio.NewWriter(&out)
 
 				ui := term.NewUI(
-					&in,
-					writer,
-					term.NewTeePrinter(writer),
+					&bytes.Buffer{},
+					&out,
+					term.NewTeePrinter(&out),
 					nil,
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
-				writer.Flush()
 
-				result, err := ioutil.ReadAll(&out)
-
-				Expect(err).NotTo(HaveOccurred())
-				Expect(result).To(ContainSubstring("Insert integer value for /integertest [required]"))
+				Expect(out.String()).To(ContainSubstring("Insert integer value for /integertest [required]"))
 			})
 		})
 	})
@@ -113,24 +99,18 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				in := bytes.Buffer{}
 				out := bytes.Buffer{}
-				writer := bufio.NewWriter(&out)
 
 				ui := term.NewUI(
-					&in,
-					writer,
-					term.NewTeePrinter(writer),
+					&bytes.Buffer{},
+					&out,
+					term.NewTeePrinter(&out),
 					nil,
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
-				writer.Flush()
 
-				result, err := ioutil.ReadAll(&out)
-
-				Expect(err).NotTo(HaveOccurred())
-				Expect(result).To(ContainSubstring("Insert numeric value for /numbertest [required]"))
+				Expect(out.String()).To(ContainSubstring("Insert numeric value for /numbertest [required]"))
 			})
 		})
 	})
@@ -151,24 +131,18 @@ var _ = Describe("Schema", func() {
    ]
 }`
 
-				in := bytes.Buffer{}
 				out := bytes.Buffer{}
-				writer := bufio.NewWriter(&out)
 
 				ui := term.NewUI(
-					&in,
-					writer,
-					term.NewTeePrinter(writer),
+					&bytes.Buffer{},
+					&out,
+					term.NewTeePrinter(&out),
 					nil,
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
-				writer.Flush()
 
-				result, err := ioutil.ReadAll(&out)
-
-				Expect(err).NotTo(HaveOccurred())
-				Expect(result).To(ContainSubstring("Insert boolean value for /booleantest [required]"))
+				Expect(out.String()).To(ContainSubstring("Insert boolean value for /booleantest [required]"))
 			})
 		})
 	})
