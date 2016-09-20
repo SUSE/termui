@@ -24,31 +24,25 @@ func (u *UI) PrintlnColor(colors []color.Attribute, args ...interface{}) (int, e
 // Helper functions for simple color printing
 
 func (u *UI) RedPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgRed}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgRed}, args...)
 }
 
 func (u *UI) RedBoldPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgRed, color.Bold}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgRed, color.Bold}, args...)
 }
 
 func (u *UI) YellowPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgYellow}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgYellow}, args...)
 }
 
 func (u *UI) YellowBoldPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgYellow, color.Bold}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgYellow, color.Bold}, args...)
 }
 
 func (u *UI) GreenPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgGreen}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgGreen}, args...)
 }
 
 func (u *UI) GreenBoldPrintln(args ...interface{}) (int, error) {
-	colors := []color.Attribute{color.FgGreen, color.Bold}
-	return u.PrintlnColor(colors, args...)
+	return u.PrintlnColor([]color.Attribute{color.FgGreen, color.Bold}, args...)
 }
