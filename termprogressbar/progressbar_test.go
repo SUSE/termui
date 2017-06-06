@@ -6,7 +6,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hpcloud/termui/termprogressbar"
 	"github.com/stretchr/testify/assert"
 )
 

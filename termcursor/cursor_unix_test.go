@@ -3,9 +3,9 @@
 package termcursor_test
 
 import (
-	"github.com/hpcloud/termui/termcursor"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/suse/termui/termcursor"
 )
 
 var _ = Describe("cursor", func() {
