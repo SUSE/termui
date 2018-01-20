@@ -6,6 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/SUSE/termui/termprogressbar"
+
 	"github.com/stretchr/testify/assert"
 )
 
