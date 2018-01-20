@@ -5,7 +5,7 @@ package fakes
 import (
 	"sync"
 
-	"github.com/suse/termui/termpassword"
+	"github.com/SUSE/termui/termpassword"
 )
 
 // FakeReader needs a comment to stop lint errors (will break on regeneration)

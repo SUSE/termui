@@ -5,7 +5,7 @@ package termcursor_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/suse/termui/termcursor"
+	"github.com/SUSE/termui/termcursor"
 )
 
 var _ = Describe("cursor", func() {

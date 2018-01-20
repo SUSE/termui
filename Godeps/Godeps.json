@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/suse/termui",
+	"ImportPath": "github.com/SUSE/termui",
 	"GoVersion": "go1.8",
 	"GodepVersion": "v79",
 	"Deps": [

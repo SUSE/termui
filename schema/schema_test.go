@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/suse/termui/schema"
+	"github.com/SUSE/termui/schema"
 
 	term "github.com/cloudfoundry/cli/cf/terminal"
 	. "github.com/onsi/ginkgo"
