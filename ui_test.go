@@ -6,7 +6,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/suse/termui/termpassword"
+	"github.com/SUSE/termui/termpassword"
 )
 
 type testState struct {

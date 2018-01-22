@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/cloudfoundry/cli/cf/terminal"
+	"github.com/SUSE/termui"
 )
 
 // Parser struct definition
 type Parser struct {
-	ui terminal.UI
+	ui *termui.UI
 }
 
 // NewSchemaParser initializes SchemaParser
-func NewSchemaParser(userInterface terminal.UI) *Parser {
+func NewSchemaParser(userInterface *termui.UI) *Parser {
 	return &Parser{
 		ui: userInterface,
 	}
@@ -49,13 +49,13 @@ func (p *Parser) parseObject(key string, input map[string]interface{}) (map[stri
 			switch t {
 			case "string":
 				if k == "password" {
-					result[k] = p.ui.AskForPassword(fmt.Sprintf("Insert string value for %s/%s%s", key, k, required))
+					result[k] = p.ui.PasswordReader.PromptForPassword(fmt.Sprintf("Insert string value for %s/%s%s", key, k, required))
 				} else {
-					result[k] = p.ui.Ask(fmt.Sprintf("Insert string value for %s/%s%s", key, k, required))
+					result[k] = p.ui.Prompt(fmt.Sprintf("Insert string value for %s/%s%s", key, k, required))
 				}
 			case "integer":
 				{
-					i, err := strconv.Atoi(p.ui.Ask(fmt.Sprintf("Insert integer value for %s/%s%s", key, k, required)))
+					i, err := strconv.Atoi(p.ui.Prompt(fmt.Sprintf("Insert integer value for %s/%s%s", key, k, required)))
 					if err != nil {
 						return nil, err
 					}
@@ -63,14 +63,14 @@ func (p *Parser) parseObject(key string, input map[string]interface{}) (map[stri
 				}
 			case "boolean":
 				{
-					i, err := strconv.ParseBool(p.ui.Ask(fmt.Sprintf("Insert boolean value for %s/%s%s", key, k, required)))
+					i, err := strconv.ParseBool(p.ui.Prompt(fmt.Sprintf("Insert boolean value for %s/%s%s", key, k, required)))
 					if err != nil {
 						return nil, err
 					}
 					result[k] = i
 				}
 			case "number":
-				i, err := strconv.ParseFloat(p.ui.Ask(fmt.Sprintf("Insert numeric value for %s/%s%s", key, k, required)), 64)
+				i, err := strconv.ParseFloat(p.ui.Prompt(fmt.Sprintf("Insert numeric value for %s/%s%s", key, k, required)), 64)
 				if err != nil {
 					return nil, err
 				}

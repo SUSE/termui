@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/suse/termui/schema"
+	"github.com/SUSE/termui"
+	"github.com/SUSE/termui/schema"
+	"github.com/SUSE/termui/termpassword"
 
-	term "github.com/cloudfoundry/cli/cf/terminal"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -37,11 +38,10 @@ var _ = Describe("Schema", func() {
 
 				out := bytes.Buffer{}
 
-				ui := term.NewUI(
+				ui := termui.New(
 					&bytes.Buffer{},
 					&out,
-					term.NewTeePrinter(&out),
-					nil,
+					termpassword.NewReader(),
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
@@ -69,11 +69,10 @@ var _ = Describe("Schema", func() {
 
 				out := bytes.Buffer{}
 
-				ui := term.NewUI(
+				ui := termui.New(
 					&bytes.Buffer{},
 					&out,
-					term.NewTeePrinter(&out),
-					nil,
+					termpassword.NewReader(),
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
@@ -101,11 +100,10 @@ var _ = Describe("Schema", func() {
 
 				out := bytes.Buffer{}
 
-				ui := term.NewUI(
+				ui := termui.New(
 					&bytes.Buffer{},
 					&out,
-					term.NewTeePrinter(&out),
-					nil,
+					termpassword.NewReader(),
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
@@ -133,11 +131,10 @@ var _ = Describe("Schema", func() {
 
 				out := bytes.Buffer{}
 
-				ui := term.NewUI(
+				ui := termui.New(
 					&bytes.Buffer{},
 					&out,
-					term.NewTeePrinter(&out),
-					nil,
+					termpassword.NewReader(),
 				)
 
 				schema.NewSchemaParser(ui).ParseSchema(str)
